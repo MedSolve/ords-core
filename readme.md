@@ -8,7 +8,7 @@ UNDER DEVELOPMENT! - Needs a repository with an example implementation, some of 
 # Architecture
 Illustrated in the figure below is a database (module) microservice who registers at the server *ServiceRegistry*. A *connector* module recives and requests and sends back responses to a client where a *map* maps the request to a specfic microservice such as the *database* microservice. Eventually *resolvers* is gonna be added to the *ServiceRegistry* so that microservices can be resolved with other than local methods etc webhooks.
 
-[[https://github.com/ords/ords-core/blob/master/assets/architecture.png|alt=drawioArchitecture]]
+![drawioArchitecture](https://github.com/ords/ords-core/blob/master/assets/architecture.png)
 
 # Using this module
 This module exists on npm. To use it run:
