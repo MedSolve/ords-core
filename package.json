@@ -1,5 +1,5 @@
 {
-  "name": "ords-core",
+  "name": "@ords/core",
   "version": "0.9.1",
   "description": "Microservice architecture with service proposals in nodejs and typescript",
   "main": "dist/src/index",
