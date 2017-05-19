@@ -1,50 +1,60 @@
 This project builds a modular microservice architecture in typescript.
 
-UNDER DEVELOPMENT!
+UNDER DEVELOPMENT! - Needs a repository with an example implementation, some of the links are not working yet!
 
 # Gitter Channel
 [Chat in Gitter](https://gitter.im/GallVp/chiroit-backend?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 
 # Architecture
-Note: Show the idea of modules and module types here along with the central PesantService class
+Note: Show the idea of modules , maps and module types here along with the central ServiceRegistry class
+
+# Using this module
+This module exists on npm. To use it run:
+
+```
+npm install @ords/core --save
+```
 
 # Global dependencies
 - nodejs
 - typescript
 - typings
+- mocha
 
 # Getting started
-In project directory, run:
+Initially install dependencies by running:
 ```
-npm install
-typings install
-tsc
+npm run build-env
 ```
+Whenever you have made changes you can run the following command
+```
+npm run build-depoly
+```
+## Scripts
 In order to test the project you can now run:
 ```
 npm test
 ```
-## Cleaning Test Build
-To clean the build directories, run:
+To clean the project do:
 ```
-./cleanBuild
+npm run clean
 ```
-# Organisation of project
-Show the idea of modules and module types here along with the central Server class
 
 # Contribution
-Eventually modules will be created seperatly from this core project but for now they are included in the *modules* folder. These core modules implements proposals from the *proposals* directory. Essentially all kinds of modules can be delivered but modules following the *proposals* will be more interopable. Below are some general rules of code:
+Contributions can be made to either modules (microservices), maps or this repo. Module and maps contribution is managed in [http://github.com/medsolve/ords-modules](http://github.com/medsolve/ords-modules) and [http://github.com/medsolve/ords-maps](http://github.com/medsolve/ords-maps) resspectivly.
 
-- Use camleCase
-- Document your code
-- Write test
+Core modules implements proposals from the *proposals* directory. Essentially all kinds of modules can be delivered but modules following the *proposals* will be entirely interopable. Below are general rules for code contribution:
 
-Ideas for naming to and directory structure to keep consistensy *modules/:type/:type.:custom.ts* where type is the type of module and custom can be everything. A mongodb db will be *modules/database/database.mongo.ts* with the class name being *DatabaseMongo*. All maps from internal microservices to connector should be located in *maps/* and named acordding to what connector they belong to. Please see the names of already implemented maps and follow that naming.
+- Use camleCase instead of underscore
+- Document your code with comments
+- Write at least unit tests
+- Follow established directory structure
 
 # Versioning
-We use schemantic versioning. Do no introduce backwards compatible breakable code without upgrading the software version to a major release.
+We use schemantic versioning. We do no introduce backwards compatible breakable code without upgrading the software version to a major release.
 
 # Todo
-* More documentation, tests and example implementations
-* Create issue board
-* Create website for project
+* More documentation
+* Better tests
+* Update website for project
+* Example implemetation
