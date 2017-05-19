@@ -6,7 +6,9 @@ UNDER DEVELOPMENT! - Needs a repository with an example implementation, some of 
 [Chat in Gitter](https://gitter.im/GallVp/chiroit-backend?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 
 # Architecture
-Note: Show the idea of modules , maps and module types here along with the central ServiceRegistry class
+Illustrated in the figure below is a database (module) microservice who registers at the server *ServiceRegistry*. A *connector* module recives and requests and sends back responses to a client where a *map* maps the request to a specfic microservice such as the *database* microservice. Eventually *resolvers* is gonna be added to the *ServiceRegistry* so that microservices can be resolved with other than local methods etc webhooks.
+
+[[https://github.com/ords/ords-core/blob/master/assets/architecture.png|alt=drawioArchitecture]]
 
 # Using this module
 This module exists on npm. To use it run:
@@ -14,6 +16,8 @@ This module exists on npm. To use it run:
 ```
 npm install @ords/core --save
 ```
+
+The module includes *ShortenAct* the purpose of this is to simplify calls made to the *ServiceRegistry*.
 
 # Global dependencies
 - nodejs

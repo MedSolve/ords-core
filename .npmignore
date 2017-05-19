@@ -2,6 +2,7 @@
 /src
 /test
 /typings
+/assets
 .DS_Store
 tslint.json
 .npmignore
