@@ -2,7 +2,8 @@
   "name": "ords-core",
   "dependencies": {},
   "globalDevDependencies": {
-    "node": "registry:dt/node#7.0.0+20170322231424"
+    "node": "registry:dt/node#7.0.0+20170322231424",
+    "mocha": "registry:dt/mocha#2.2.5+20170311011848"
   },
   "devDependencies": {
     "chai": "registry:npm/chai#3.5.0+20160723033700"

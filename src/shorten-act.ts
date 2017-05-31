@@ -31,6 +31,8 @@ export class ShortenAct {
     public static tryCatch(registry: ServiceRegistry, root: string, name: string, request: any, handler: TryCatchHandler): void {
 
         // try to perform action
+        let errFlag: boolean = false;
+
         try {
 
             // setup holder
@@ -52,7 +54,10 @@ export class ShortenAct {
                     body[value[0]] = value[1];
                 },
                 err => {
-                    handler(err);
+                    if (errFlag === false) {
+                        handler(err);
+                        errFlag = true;
+                    }
                 },
                 () => {
 
@@ -78,7 +83,10 @@ export class ShortenAct {
                     }
                 },
                 err => {
-                    handler(err);
+                    if (errFlag === false) {
+                        handler(err);
+                        errFlag = true;
+                    }
                 },
                 () => {
 
@@ -95,8 +103,10 @@ export class ShortenAct {
             // catch any error
         } catch (err) {
 
-            // problably demo to some microservice error
-            handler(err);
+            if (errFlag === false) {
+                handler(err);
+                errFlag = true;
+            }
         }
     }
 }
