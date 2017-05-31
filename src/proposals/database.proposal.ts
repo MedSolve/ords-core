@@ -18,17 +18,9 @@ export namespace Database {
          */
         export type Doc = { [key: string]: any };
         /**
-         * Query for read operations
-         */
-        export type ReadQuery = {
-            [key: string]: any;
-            _limit?: number;
-            _sort?: { [key: string]: boolean; }
-        }
-        /**
          * Query for Other operations
          */
-        export type OtherQuery = { [key: string]: any; }
+        export type Query = { [key: string]: any; }
         /**
          * Number of effected rows
          */
@@ -50,26 +42,45 @@ export namespace Database {
             // new data
             data: Types.Doc
             // query to check
-            query?: Types.OtherQuery
+            query?: Types.Query
         }
         export interface Read extends _base {
-            query: Types.ReadQuery
+            /**
+             * Limits the number of output in the read
+             */
+            limit?: number;
+            /**
+             * Specific elements from the resource
+             */
+            elements?: { [element: string]: Boolean; }
+            /*
+             * Sort results in query
+             */
+            sort?: [{ element: boolean }]
+            /**
+             * Join the results on specific element
+             */
+            joins?: { [element: string]: Read }
+            /**
+             * Query to be performed
+             */
+            query?: Types.Query
         }
         export interface Update extends _base {
             // MongoDB like query syntax
-            query: Types.OtherQuery
+            query: Types.Query
             // new data
             data: Types.RowId
         }
         export interface Patch extends _base {
             // MongoDB like query syntax
-            query: Types.OtherQuery
+            query: Types.Query
             // new data
             data: Types.RowId
         }
         export interface Delete extends _base {
             // MongoDB like query syntax
-            query: Types.OtherQuery
+            query: Types.Query
         }
 
     }
