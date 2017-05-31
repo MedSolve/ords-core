@@ -55,11 +55,11 @@ export namespace Main {
         /**
          * Observable in key value pairs
          */
-        export type PairObserver= Observer<[any, any]>;
+        export type PairObserver = Observer<[any, any]>;
         /**
          * Observable in key value pairs
          */
-        export type PairObservable= Observable<[any, any]>;
+        export type PairObservable = Observable<[any, any]>;
         /**
          * Request package and auth information about the user
          */
@@ -110,12 +110,16 @@ export namespace Main {
          * Hooks hold in a pesant
          */
         export type Hooks = {
-            [root: string]: {
-                [name: string]: {
-                    pre: Array<Hook<Request>>,
-                    post: Array<Hook<Response>>
-                }
-            }
+            pre: Array<{
+                root: string; // regexp
+                name: string; // regexp
+                hook: Hook<Request>
+            }>,
+            post: Array<{
+                root: string; // regexp
+                name: string; // regexp
+                hook: Hook<Response>
+            }>
         }
     }
     /**

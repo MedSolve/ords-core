@@ -6,15 +6,19 @@ import { Observable, Observer } from 'rxjs';
  */
 export class ServiceRegistry {
     /**
-     * Microservices
+     * Microservices implemented
      */
-    public services: Main.Types.Services = {};
+    private services: Main.Types.Services = {};
     /**
-     * Hooks
+     * Hooks implemented
      */
-    public hooks: Main.Types.Hooks = {};
+    private hooks: Main.Types.Hooks = {
+        pre: [],
+        post: []
+    };
     /**
      * Non local resolvers of microservice acts
+     * TODO: THis is not used yet
      */
     public resolvers: Array<Resolver.Proposal> = [];
     /**
@@ -40,60 +44,40 @@ export class ServiceRegistry {
      */
     addPreHook(root: string, name: string, hook: Main.Types.Hook<Main.Types.Request>): void {
 
-        // check if root exists otherwise add it
-        if (this.hooks[root] === undefined) {
-            this.hooks[root] = {};
-        }
-
-        // check if name exists otherwise add it
-        if (this.hooks[root][name] === undefined) {
-            this.hooks[root][name] = {
-                pre: [],
-                post: []
-            }
-        }
-
-        // add the hook to correct type
-        this.hooks[root][name].pre.push(hook);
+        // add the hook to stack
+        this.hooks.pre.push({
+            root: root,
+            name: name,
+            hook: hook
+        });
     }
     /**
      * Adds a post hook to microservice
      */
     addPostHook(root: string, name: string, hook: Main.Types.Hook<Main.Types.Response>): void {
 
-        // check if root exists otherwise add it
-        if (this.hooks[root] === undefined) {
-            this.hooks[root] = {};
-        }
-
-        // check if name exists otherwise add it
-        if (this.hooks[root][name] === undefined) {
-            this.hooks[root][name] = {
-                pre: [],
-                post: []
-            }
-        }
-
-        // add the hook to correct type
-        this.hooks[root][name].post.push(hook);
+        /// add the hook to stack
+        this.hooks.post.push({
+            root: root,
+            name: name,
+            hook: hook
+        });
     }
     /**
      * Do the microservice pre hook
      */
     doPreHook(root: string, name: string, payload: Main.Types.Request): void {
 
-        // | I.Hook<Response>
+        // loop the hooks
+        for (let source of this.hooks.pre) {
 
-        // check if hooks exists
-        if (this.hooks[root] === undefined ||
-            this.hooks[root][name] === undefined) {
-            return;
-            // else perform hook
-        } else {
+            // check match for root
+            if(source.root.match(root)) {
 
-            // loop hooks and fire them with the payload
-            for (let hook of this.hooks[root][name]['pre']) {
-                hook(payload);
+                // then check match for name
+                if(source.name.match(name)) {
+                    source.hook(payload);
+                }
             }
         }
     }
@@ -102,18 +86,16 @@ export class ServiceRegistry {
     */
     doPostHook(root: string, name: string, payload: Main.Types.Response): void {
 
-        // | I.Hook<Response>
+        // loop the hooks
+        for (let source of this.hooks.post) {
 
-        // check if hooks exists
-        if (this.hooks[root] === undefined ||
-            this.hooks[root][name] === undefined) {
-            return;
-            // else perform hook
-        } else {
+            // check match for root
+            if(source.root.match(root)) {
 
-            // loop hooks and fire them with the payload
-            for (let hook of this.hooks[root][name]['post']) {
-                hook(payload);
+                // then check match for name
+                if(source.name.match(name)) {
+                    source.hook(payload);
+                }
             }
         }
     }
