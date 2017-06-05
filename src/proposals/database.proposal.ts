@@ -70,13 +70,13 @@ export namespace Database {
             // MongoDB like query syntax
             query: Types.Query
             // new data
-            data: Types.RowId
+            data: Types.Doc
         }
         export interface Patch extends _base {
             // MongoDB like query syntax
             query: Types.Query
             // new data
-            data: Types.RowId
+            data: Types.Doc
         }
         export interface Delete extends _base {
             // MongoDB like query syntax
