@@ -1,6 +1,6 @@
 {
   "name": "@ords/core",
-  "version": "0.12.1",
+  "version": "0.12.2",
   "description": "Microservice architecture with service proposals in nodejs and typescript",
   "main": "dist/src/index",
   "typings": "dist/src/index",
@@ -8,6 +8,8 @@
     "test": "tsc; mocha dist/test/index.js",
     "clean": "./scripts/cleanBuild.sh",
     "build-depoly": "tsc",
+    "prepublish": "tsc",
+    "postinstall": "typings install",
     "build-env": "npm install && typings install"
   },
   "keywords": [
