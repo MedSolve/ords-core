@@ -60,7 +60,13 @@ export namespace Database {
             /**
              * Join the results on specific element
              */
-            joins?: { [element: string]: Read }
+            joins?: {
+                [originElement: string]: {      // the origin element to match with
+                    targetResource: string,     // resource to perform query in
+                    targetElement: string,      // element from which origin should match
+                    scope: Read                 // scope of the query
+                }
+            }
             /**
              * Query to be performed
              */
