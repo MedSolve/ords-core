@@ -96,7 +96,7 @@ export namespace Main {
          * Hook that can change behavior of either input or output depedning on the load given
          */
         export type Hook<T> = {
-            (load: T): void
+            (load: T): T
         }
         /**
          * Services hold in a pesant 

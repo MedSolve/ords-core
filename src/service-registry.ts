@@ -66,7 +66,7 @@ export class ServiceRegistry {
     /**
      * Do the microservice pre hook
      */
-    doPreHook(root: string, name: string, payload: Main.Types.Request): void {
+    doPreHook(root: string, name: string, payload: Main.Types.Request): Main.Types.Request {
 
         // loop the hooks
         for (let source of this.hooks.pre) {
@@ -76,15 +76,17 @@ export class ServiceRegistry {
 
                 // then check match for name
                 if(source.name.match(name)) {
-                    source.hook(payload);
+                    payload = source.hook(payload);
                 }
             }
         }
+
+        return payload;
     }
     /**
     * Do the microservice post hook
     */
-    doPostHook(root: string, name: string, payload: Main.Types.Response): void {
+    doPostHook(root: string, name: string, payload: Main.Types.Response): Main.Types.Response {
 
         // loop the hooks
         for (let source of this.hooks.post) {
@@ -94,10 +96,12 @@ export class ServiceRegistry {
 
                 // then check match for name
                 if(source.name.match(name)) {
-                    source.hook(payload);
+                    payload = source.hook(payload);
                 }
             }
         }
+
+        return payload;
     }
     /**
      * Act out the microservice based upon the request
@@ -114,7 +118,7 @@ export class ServiceRegistry {
             } else {
 
                 // perform the pre hooks
-                this.doPreHook(root, name, request);
+                request = this.doPreHook(root, name, request);
 
                 // init empty handlers as undefined
                 let metaHandler: Observer<any> = undefined;
@@ -138,7 +142,7 @@ export class ServiceRegistry {
                 }
 
                 // generate response to make the handlers
-                let Response: Main.Types.Response = {
+                let response: Main.Types.Response = {
                     meta: Observable.create((innerHandler: any) => {
                         metaHandler = innerHandler;
                         next();
@@ -150,10 +154,10 @@ export class ServiceRegistry {
                 }
 
                 // perform the post hooks
-                this.doPostHook(root, name, Response);
+                response = this.doPostHook(root, name, response);
 
                 // return the final response
-                return Response;
+                return response;
             }
         }
     }
