@@ -28,7 +28,7 @@ export class ShortenAct {
     /**
      * Perform try catch on acting
      */
-    public static tryCatch(registry: ServiceRegistry, root: string, name: string, request: any, handler: TryCatchHandler): void {
+    public static tryCatch(registry: ServiceRegistry, root: string, name: string, request: Main.Types.Request, handler: TryCatchHandler): void {
 
         // try to perform action
         let errFlag: boolean = false;
