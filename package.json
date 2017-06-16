@@ -1,16 +1,13 @@
 {
   "name": "@ords/core",
-  "version": "0.12.3",
+  "version": "0.12.4",
   "description": "Microservice architecture with service proposals in nodejs and typescript",
   "main": "dist/src/index",
   "typings": "dist/src/index",
   "scripts": {
     "test": "tsc; mocha dist/test/index.js",
     "clean": "./scripts/cleanBuild.sh",
-    "build-depoly": "tsc",
-    "prepublish": "tsc",
-    "postinstall": "typings install",
-    "build-env": "npm install && typings install"
+    "prepare": "tsc"
   },
   "keywords": [
     "microservice",
@@ -20,7 +17,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/medsolve/ords-core.git"
+    "url": "git://github.com/ords/ords-core.git"
   },
   "author": "Rune k. Rasmussen",
   "license": "MIT",
