@@ -36,6 +36,7 @@ export namespace Database {
         export interface _base {
             [key: string]: any;
             resource: string;
+            runValidations?: boolean;
         }
 
         export interface Create extends _base {
