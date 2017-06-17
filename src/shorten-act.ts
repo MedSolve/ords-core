@@ -33,80 +33,69 @@ export class ShortenAct {
         // try to perform action
         let errflag: boolean = false;
 
-        try {
+        // setup holder
+        let body: any = {};
+        let meta: any = {};
 
-            // setup holder
-            let body: any = {};
-            let meta: any = {};
+        // flag indicating send
+        let done: boolean = false;
 
-            // flag indicating send
-            let done: boolean = false;
+        // operation flag
+        let flag: string = main.flag.dataType.RAW;
 
-            // operation flag
-            let flag: string = main.flag.dataType.RAW;
+        // carry out operation and send back results
+        let resp = registry.act(root, name, request);
 
-            // carry out operation and send back results
-            let resp = registry.act(root, name, request);
-
-            // subscribe to body
-            resp.package.subscribe(
-                value => {
-                    body[value[0]] = value[1];
-                },
-                err => {
-                    if (errflag === false) {
-                        handler(err);
-                        errflag = true;
-                    }
-                },
-                () => {
-
-                    // send the response if done
-                    if (done) {
-                        handler(null, ShortenAct.convertOutput(body, flag), meta);
-                    } else {
-
-                        // set done flag to true
-                        done = true;
-                    }
+        // subscribe to body
+        resp.package.subscribe(
+            value => {
+                body[value[0]] = value[1];
+            },
+            err => {
+                if (errflag === false) {
+                    handler(err);
+                    errflag = true;
                 }
-            );
+            },
+            () => {
 
-            // subscribe to headers
-            resp.meta.subscribe(
-                value => {
-                    // save flag if it is send
-                    if (value[0] === main.flag.FLAGSEND) {
-                        flag = value[1];
-                    } else {
-                        meta[value[0]] = value[1];
-                    }
-                },
-                err => {
-                    if (errflag === false) {
-                        handler(err);
-                        errflag = true;
-                    }
-                },
-                () => {
-
-                    // send the response if done
-                    if (done) {
-                        handler(null, ShortenAct.convertOutput(body, flag), meta);
-                    }
+                // send the response if done
+                if (done) {
+                    handler(null, ShortenAct.convertOutput(body, flag), meta);
+                } else {
 
                     // set done flag to true
                     done = true;
                 }
-            );
-
-            // catch any error
-        } catch (err) {
-
-            if (errflag === false) {
-                handler(err);
-                errflag = true;
             }
-        }
+        );
+
+        // subscribe to headers
+        resp.meta.subscribe(
+            value => {
+                // save flag if it is send
+                if (value[0] === main.flag.FLAGSEND) {
+                    flag = value[1];
+                } else {
+                    meta[value[0]] = value[1];
+                }
+            },
+            err => {
+                if (errflag === false) {
+                    handler(err);
+                    errflag = true;
+                }
+            },
+            () => {
+
+                // send the response if done
+                if (done) {
+                    handler(null, ShortenAct.convertOutput(body, flag), meta);
+                }
+
+                // set done flag to true
+                done = true;
+            }
+        );
     }
 }

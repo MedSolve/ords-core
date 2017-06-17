@@ -72,10 +72,10 @@ export class ServiceRegistry {
         for (let source of this.hooks.pre) {
 
             // check match for root
-            if(source.root.match(root)) {
+            if (source.root.match(root)) {
 
                 // then check match for name
-                if(source.name.match(name)) {
+                if (source.name.match(name)) {
                     payload = source.hook(payload);
                 }
             }
@@ -92,10 +92,10 @@ export class ServiceRegistry {
         for (let source of this.hooks.post) {
 
             // check match for root
-            if(source.root.match(root)) {
+            if (source.root.match(root)) {
 
                 // then check match for name
-                if(source.name.match(name)) {
+                if (source.name.match(name)) {
                     payload = source.hook(payload);
                 }
             }
@@ -108,63 +108,74 @@ export class ServiceRegistry {
      */
     act(root: string, name: string, request: main.types.Request): main.types.Response {
 
-        // check if root exists otherwise add it
-        if (this.services[root] === undefined) {
-            throw new Error(main.flag.error.NO_ROOT_FOUND);
-        } else {
-            // check if name exists otherwise add it
-            if (this.services[root][name] === undefined) {
-                throw new Error(main.flag.error.NO_NAME_ON_ROOT);
-            } else {
+        // init empty handlers as undefined
+        let metaHandler: Observer<any> = undefined;
+        let packageHandler: Observer<any> = undefined;
 
-                // add the root and name metas
-                request._meta = {
-                    msName: name,
-                    msRoot: root
-                };
+        // keep track of number of nexts
+        let nextCounter = 0;
 
-                // perform the pre hooks
-                request = this.doPreHook(root, name, request);
+        // add the root and name metas
+        request._meta = {
+            msName: name,
+            msRoot: root
+        };
 
-                // init empty handlers as undefined
-                let metaHandler: Observer<any> = undefined;
-                let packageHandler: Observer<any> = undefined;
+        // prepare function to be run when observable is finished
+        let next = () => {
 
-                // keep track of number of nexts
-                let nextCounter = 0;
+            // count handlers up
+            nextCounter++;
 
-                // prepare function to be run when observable is finished
-                let next = () => {
+            // check that handlers are populated
+            if (nextCounter === 2) {
 
-                    // count handlers up
-                    nextCounter++;
+                // use the handlers to perform the main service
+                this.services[root][name](request, metaHandler, packageHandler);
 
-                    // check that handlers are populated
-                    if (nextCounter === 2) {
+                // check if root exists otherwise add it
+                if (this.services[root] === undefined) {
+                    packageHandler.error(new Error(main.flag.error.NO_ROOT_FOUND));
+                    packageHandler.complete();
+                    metaHandler.complete();
+                } else {
+                    // check if name exists otherwise add it
+                    if (this.services[root][name] === undefined) {
+                        packageHandler.error(new Error(main.flag.error.NO_NAME_ON_ROOT));
+                        packageHandler.complete();
+                        metaHandler.complete();
+                    } else {
 
-                        // use the handlers to perform the main service
-                        this.services[root][name](request, metaHandler, packageHandler);
+                        // perform the pre hooks
+                        request = this.doPreHook(root, name, request);
+
+                        // test
+                        request.package.subscribe(null, (err) => {
+                            packageHandler.error(err);
+                            packageHandler.complete();
+                            metaHandler.complete();
+                        });
                     }
                 }
-
-                // generate response to make the handlers
-                let response: main.types.Response = {
-                    meta: Observable.create((innerHandler: any) => {
-                        metaHandler = innerHandler;
-                        next();
-                    }),
-                    package: Observable.create((innerHandler: any) => {
-                        packageHandler = innerHandler;
-                        next();
-                    })
-                }
-
-                // perform the post hooks
-                response = this.doPostHook(root, name, response);
-
-                // return the final response
-                return response;
             }
         }
+
+        // generate response to make the handlers
+        let response: main.types.Response = {
+            meta: Observable.create((innerHandler: any) => {
+                metaHandler = innerHandler;
+                next();
+            }),
+            package: Observable.create((innerHandler: any) => {
+                packageHandler = innerHandler;
+                next();
+            })
+        }
+
+        // perform the post hooks
+        response = this.doPostHook(root, name, response);
+
+        // return the final response
+        return response;
     }
 }
