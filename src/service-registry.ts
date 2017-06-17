@@ -130,9 +130,6 @@ export class ServiceRegistry {
             // check that handlers are populated
             if (nextCounter === 2) {
 
-                // use the handlers to perform the main service
-                this.services[root][name](request, metaHandler, packageHandler);
-
                 // check if root exists otherwise add it
                 if (this.services[root] === undefined) {
                     packageHandler.error(new Error(main.flag.error.NO_ROOT_FOUND));
@@ -148,6 +145,9 @@ export class ServiceRegistry {
 
                         // perform the pre hooks
                         request = this.doPreHook(root, name, request);
+
+                        // use the handlers to perform the main service
+                        this.services[root][name](request, metaHandler, packageHandler);
 
                         // test
                         request.package.subscribe(null, (err) => {
