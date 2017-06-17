@@ -4,11 +4,11 @@ import { Observable, Observer } from 'rxjs';
  * Proposal for pesant taking care of the microservices
  * root: none is attacted
  */
-export namespace Main {
+export namespace main {
     /**
      * Operational flags
      */
-    export namespace Flag {
+    export namespace flag {
         /**
          * Indicate that a flag is send
          */
@@ -16,7 +16,7 @@ export namespace Main {
         /**
          * Flags for datatype
          */
-        export namespace DataType {
+        export namespace dataType {
             /**
              * Data type send back is array
              */
@@ -33,7 +33,7 @@ export namespace Main {
         /**
          * Common errors
          */
-        export namespace Error {
+        export namespace error {
             /**
              * No root found
              */
@@ -51,7 +51,7 @@ export namespace Main {
     /**
      * Types used in proposals
      */
-    export namespace Types {
+    export namespace types {
         /**
          * Observable in key value pairs
          */
@@ -63,7 +63,7 @@ export namespace Main {
         /**
          * Base package of request
          */
-        export interface _baseRequest<T> {
+        export interface _BaseRequest<T> {
             /**
              * Pairwise content of the request
              */
@@ -89,7 +89,7 @@ export namespace Main {
         /**
          * Request package and auth information about the user
          */
-        export type Request = _baseRequest<PairObservable>;
+        export type Request = _BaseRequest<PairObservable>;
         /**
          * Respons and meta of a service
          */

@@ -1,5 +1,5 @@
 import { ServiceRegistry } from './service-registry';
-import { Main } from './proposals';
+import { main } from './proposals';
 
 export interface TryCatchHandler {
     (err: Error, res?: any, meta?: any): void
@@ -9,17 +9,17 @@ export class ShortenAct {
     /**
      * Convert body output from act depending on the meta flag set
      */
-    public static convertOutput(body: Main.Packages, flag: any): any {
+    public static convertOutput(body: main.Packages, flag: any): any {
 
         switch (flag) {
-            case Main.Flag.DataType.RAW:
+            case main.flag.dataType.RAW:
                 return body['0'];
-            case Main.Flag.DataType.MULTIPLE:
+            case main.flag.dataType.MULTIPLE:
                 // return in sorted array
                 return Object.keys(body).map((key: string) => {
                     return body[key];
                 });
-            case Main.Flag.DataType.OBJECT:
+            case main.flag.dataType.OBJECT:
                 return body;
             default:
                 return body;
@@ -28,10 +28,10 @@ export class ShortenAct {
     /**
      * Perform try catch on acting
      */
-    public static tryCatch(registry: ServiceRegistry, root: string, name: string, request: Main.Types.Request, handler: TryCatchHandler): void {
+    public static tryCatch(registry: ServiceRegistry, root: string, name: string, request: main.types.Request, handler: TryCatchHandler): void {
 
         // try to perform action
-        let errFlag: boolean = false;
+        let errflag: boolean = false;
 
         try {
 
@@ -43,7 +43,7 @@ export class ShortenAct {
             let done: boolean = false;
 
             // operation flag
-            let flag: string = Main.Flag.DataType.RAW;
+            let flag: string = main.flag.dataType.RAW;
 
             // carry out operation and send back results
             let resp = registry.act(root, name, request);
@@ -54,9 +54,9 @@ export class ShortenAct {
                     body[value[0]] = value[1];
                 },
                 err => {
-                    if (errFlag === false) {
+                    if (errflag === false) {
                         handler(err);
-                        errFlag = true;
+                        errflag = true;
                     }
                 },
                 () => {
@@ -76,16 +76,16 @@ export class ShortenAct {
             resp.meta.subscribe(
                 value => {
                     // save flag if it is send
-                    if (value[0] === Main.Flag.FLAGSEND) {
+                    if (value[0] === main.flag.FLAGSEND) {
                         flag = value[1];
                     } else {
                         meta[value[0]] = value[1];
                     }
                 },
                 err => {
-                    if (errFlag === false) {
+                    if (errflag === false) {
                         handler(err);
-                        errFlag = true;
+                        errflag = true;
                     }
                 },
                 () => {
@@ -103,9 +103,9 @@ export class ShortenAct {
             // catch any error
         } catch (err) {
 
-            if (errFlag === false) {
+            if (errflag === false) {
                 handler(err);
-                errFlag = true;
+                errflag = true;
             }
         }
     }

@@ -49,10 +49,14 @@ Contributions can be made to either modules (microservices), maps or this repo. 
 
 Core modules implements proposals from the *proposals* directory. Essentially all kinds of modules can be delivered but modules following the *proposals* will be entirely interopable. Below are general rules for code contribution:
 
-- Use camleCase instead of underscore
+- Use camleCase instead of underscore for namespace, variables and functions
+- constants CAPITALIZED
+- Interfaces, Abstract, Classes, Types all with conventional naming starting with a capital letter
 - Document your code with comments
 - Write at least unit tests
 - Follow established directory structure
+
+Variables or anything named with a *_* prefix is usually instanciated automaticly somewhere in the core a module and should therefore not be manipulated. An example is the _meta property that is attacted to the *Request* as a microservices is carried out.
 
 # Versioning
 We use schemantic versioning. We do no introduce backwards compatible breakable code without upgrading the software version to a major release.

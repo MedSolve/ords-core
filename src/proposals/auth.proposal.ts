@@ -1,18 +1,18 @@
-import { Main } from './main.proposal';
+import { main } from './main.proposal';
 
 /*
  * Authentication in a application
  * root: auth
  */
-export namespace Auth {
+export namespace auth {
   /**
    * Flags used in module to explain interactions
    */
-  export namespace Flag {
+  export namespace flag {
     /**
      * Error codes in module
      */
-    export namespace Error {
+    export namespace error {
       /**
        * User was not found when a login was attempted
        */
@@ -30,7 +30,7 @@ export namespace Auth {
   /**
    * Datatypes used for authentication
    */
-  export namespace Types {
+  export namespace types {
     /**
      * Usermeta describing a user
      */
@@ -56,7 +56,7 @@ export namespace Auth {
   /**
    * Contets of the packet field in request
    */
-  export namespace Packages {
+  export namespace packages {
     /**
      * Existing meta data to match if a user already exist and new meta data
      */
@@ -66,33 +66,33 @@ export namespace Auth {
       /**
        * Existing metadata to verify do not exist on a user
        */
-      existing: Types.UserMeta,
+      existing: types.UserMeta,
       /**
        * Meta to be used in a creation of a user
        */
-      meta: Types.UserMeta
+      meta: types.UserMeta
     }
     /**
      * Usermeta to be used for identification of a user
      */
-    export type SignIn = Types.UserMeta;
+    export type SignIn = types.UserMeta;
     /**
      * Validate a user sessions
      */
     export type Validate = {
-      session: Types.SessionId;
+      session: types.SessionId;
     }
     /**
      * Session id to be destroyed
      */
     export type SignOut = {
-      session: Types.SessionId
+      session: types.SessionId
     }
     /**
      * Identifier of what acount to remove
      */
     export type Remove = {
-      account: Types.AccountId;
+      account: types.AccountId;
     }
     /**
      * Patch of new meta and the target account
@@ -103,11 +103,11 @@ export namespace Auth {
       /**
        * Accout of user
        */
-      user: Types.AccountId,
+      user: types.AccountId,
       /**
        * The key with values to be patched
        */
-      meta: Types.UserMeta
+      meta: types.UserMeta
     }
   }
   /**
@@ -117,15 +117,15 @@ export namespace Auth {
     /**
      * Give back an account identifier
      */
-    export type SignUp = Types.AccountId;
+    export type SignUp = types.AccountId;
     /**
      * Passes the session
      */
-    export type SignIn = Types.SessionId;
+    export type SignIn = types.SessionId;
     /**
      * Validated account id belonning to session
      */
-    export type Validate = Types.AccountId;
+    export type Validate = types.AccountId;
     /**
      * Success of operation
      */
@@ -144,26 +144,26 @@ export namespace Auth {
     /**
      * Sign up a user if a specfic query is not met
      */
-    signUp: Main.Types.MicroService
+    signUp: main.types.MicroService
     /**
      * Sign in the specified user
      */
-    signIn: Main.Types.MicroService
+    signIn: main.types.MicroService
     /**
      * Sign out specific user session
      */
-    signOut: Main.Types.MicroService
+    signOut: main.types.MicroService
     /**
      * Removes a specfic user account from the system
      */
-    remove: Main.Types.MicroService
+    remove: main.types.MicroService
     /**
      * Patch a user account with updated meta
      */
-    patch: Main.Types.MicroService
+    patch: main.types.MicroService
     /**
      * Validate a session
      */
-    validate: Main.Types.MicroService
+    validate: main.types.MicroService
   }
 }

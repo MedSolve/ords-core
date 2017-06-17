@@ -1,14 +1,14 @@
-import { Main } from './main.proposal';
+import { main } from './main.proposal';
 
 /**
  * Proposal for Database
  * root: db
  */
-export namespace Database {
+export namespace database {
     /**
      * Types used in proposals
      */
-    export namespace Types {
+    export namespace types {
         /**
          * Identifier of the row affected row
          */
@@ -41,9 +41,9 @@ export namespace Database {
 
         export interface Create extends _base {
             // new data
-            data: Types.Doc
+            data: types.Doc
             // query to check
-            query?: Types.Query
+            query?: types.Query
         }
         export interface Read extends _base {
             /**
@@ -71,23 +71,23 @@ export namespace Database {
             /**
              * Query to be performed
              */
-            query?: Types.Query
+            query?: types.Query
         }
         export interface Update extends _base {
             // MongoDB like query syntax
-            query: Types.Query
+            query: types.Query
             // new data
-            data: Types.Doc
+            data: types.Doc
         }
         export interface Patch extends _base {
             // MongoDB like query syntax
-            query: Types.Query
+            query: types.Query
             // new data
-            data: Types.Doc
+            data: types.Doc
         }
         export interface Delete extends _base {
             // MongoDB like query syntax
-            query: Types.Query
+            query: types.Query
         }
 
     }
@@ -98,23 +98,23 @@ export namespace Database {
         /**
          * Create operations return the inserted row id
          */
-        export type Create = Types.RowId;
+        export type Create = types.RowId;
         /**
          * Read operations returned an array of documents
          */
-        export type Read = Array<Types.Doc>;
+        export type Read = Array<types.Doc>;
         /**
          * Update operations return the effected row id
          */
-        export type Update = Types.RowId;
+        export type Update = types.RowId;
         /**
          * Patch operations return the effected row id
          */
-        export type Patch = Types.RowId;
+        export type Patch = types.RowId;
         /**
          * Delete operations return the number of affected rows
          */
-        export type Delete = Types.NumAffected;
+        export type Delete = types.NumAffected;
     }
     /**
      * Operations included in proposal
@@ -123,22 +123,22 @@ export namespace Database {
         /**
          * 
          */
-        read: Main.Types.MicroService
+        read: main.types.MicroService
         /**
          * 
          */
-        create: Main.Types.MicroService
+        create: main.types.MicroService
         /**
          * 
          */
-        update: Main.Types.MicroService
+        update: main.types.MicroService
         /**
          * 
          */
-        delete: Main.Types.MicroService
+        delete: main.types.MicroService
         /**
          * 
          */
-        patch: Main.Types.MicroService
+        patch: main.types.MicroService
     }
 }

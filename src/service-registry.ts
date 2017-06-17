@@ -1,4 +1,4 @@
-import { Resolver, Main } from './proposals';
+import { resolver, main } from './proposals';
 import { Observable, Observer } from 'rxjs';
 
 /**
@@ -8,11 +8,11 @@ export class ServiceRegistry {
     /**
      * Microservices implemented
      */
-    private services: Main.Types.Services = {};
+    private services: main.types.Services = {};
     /**
      * Hooks implemented
      */
-    private hooks: Main.Types.Hooks = {
+    private hooks: main.types.Hooks = {
         pre: [],
         post: []
     };
@@ -20,11 +20,11 @@ export class ServiceRegistry {
      * Non local resolvers of microservice acts
      * TODO: THis is not used yet
      */
-    public resolvers: Array<Resolver.Proposal> = [];
+    public resolvers: Array<any> = [];
     /**
      * Adds an microservice on a specific root performing a certain operation and give that a name
      */
-    addMicroService(root: string, name: string, service: Main.Types.MicroService): void {
+    addMicroService(root: string, name: string, service: main.types.MicroService): void {
 
         // check if root exists otherwise add it
         if (this.services[root] === undefined) {
@@ -36,13 +36,13 @@ export class ServiceRegistry {
             // add service to list of services
             this.services[root][name] = service;
         } else {
-            throw new Error(Main.Flag.Error.NAME_ON_ROOT_EXISTS);
+            throw new Error(main.flag.error.NAME_ON_ROOT_EXISTS);
         }
     }
     /**
      * Adds a pre hook to microservice
      */
-    addPreHook(root: string, name: string, hook: Main.Types.Hook<Main.Types.Request>): void {
+    addPreHook(root: string, name: string, hook: main.types.Hook<main.types.Request>): void {
 
         // add the hook to stack
         this.hooks.pre.push({
@@ -54,7 +54,7 @@ export class ServiceRegistry {
     /**
      * Adds a post hook to microservice
      */
-    addPostHook(root: string, name: string, hook: Main.Types.Hook<Main.Types.Response>): void {
+    addPostHook(root: string, name: string, hook: main.types.Hook<main.types.Response>): void {
 
         /// add the hook to stack
         this.hooks.post.push({
@@ -66,7 +66,7 @@ export class ServiceRegistry {
     /**
      * Do the microservice pre hook
      */
-    doPreHook(root: string, name: string, payload: Main.Types.Request): Main.Types.Request {
+    doPreHook(root: string, name: string, payload: main.types.Request): main.types.Request {
 
         // loop the hooks
         for (let source of this.hooks.pre) {
@@ -86,7 +86,7 @@ export class ServiceRegistry {
     /**
     * Do the microservice post hook
     */
-    doPostHook(root: string, name: string, payload: Main.Types.Response): Main.Types.Response {
+    doPostHook(root: string, name: string, payload: main.types.Response): main.types.Response {
 
         // loop the hooks
         for (let source of this.hooks.post) {
@@ -106,15 +106,15 @@ export class ServiceRegistry {
     /**
      * Act out the microservice based upon the request
      */
-    act(root: string, name: string, request: Main.Types.Request): Main.Types.Response {
+    act(root: string, name: string, request: main.types.Request): main.types.Response {
 
         // check if root exists otherwise add it
         if (this.services[root] === undefined) {
-            throw new Error(Main.Flag.Error.NO_ROOT_FOUND);
+            throw new Error(main.flag.error.NO_ROOT_FOUND);
         } else {
             // check if name exists otherwise add it
             if (this.services[root][name] === undefined) {
-                throw new Error(Main.Flag.Error.NO_NAME_ON_ROOT);
+                throw new Error(main.flag.error.NO_NAME_ON_ROOT);
             } else {
 
                 // add the root and name metas
@@ -148,7 +148,7 @@ export class ServiceRegistry {
                 }
 
                 // generate response to make the handlers
-                let response: Main.Types.Response = {
+                let response: main.types.Response = {
                     meta: Observable.create((innerHandler: any) => {
                         metaHandler = innerHandler;
                         next();
