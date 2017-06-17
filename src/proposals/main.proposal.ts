@@ -72,6 +72,19 @@ export namespace Main {
              * Authorised user identifier
              */
             auth: string;
+            /**
+             * Attachted to the request by registry is what msroot and name that is run
+             */
+            _meta?: {
+                /**
+                 * Microservice root
+                 */
+                msRoot: string,
+                /**
+                 * Microservice name
+                 */
+                msName: string;
+            }
         }
         /**
          * Respons and meta of a service

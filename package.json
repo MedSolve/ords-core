@@ -1,6 +1,6 @@
 {
   "name": "@ords/core",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Microservice architecture with service proposals in nodejs and typescript",
   "main": "dist/src/index",
   "typings": "dist/src/index",

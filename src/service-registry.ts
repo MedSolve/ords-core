@@ -117,6 +117,12 @@ export class ServiceRegistry {
                 throw new Error(Main.Flag.Error.NO_NAME_ON_ROOT);
             } else {
 
+                // add the root and name metas
+                request._meta = {
+                    msName: name,
+                    msRoot: root
+                };
+
                 // perform the pre hooks
                 request = this.doPreHook(root, name, request);
 
