@@ -61,13 +61,13 @@ export namespace Main {
          */
         export type PairObservable = Observable<[any, any]>;
         /**
-         * Request package and auth information about the user
+         * Base package of request
          */
-        export type Request = {
+        export interface _baseRequest<T> {
             /**
              * Pairwise content of the request
              */
-            package: PairObservable;
+            package: T;
             /**
              * Authorised user identifier
              */
@@ -86,6 +86,10 @@ export namespace Main {
                 msName: string;
             }
         }
+        /**
+         * Request package and auth information about the user
+         */
+        export type Request = _baseRequest<PairObservable>;
         /**
          * Respons and meta of a service
          */
